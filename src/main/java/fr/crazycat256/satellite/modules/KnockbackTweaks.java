@@ -107,7 +107,7 @@ public class KnockbackTweaks extends Module {
         if (mc.player == null || mc.world == null) return;
         if (shouldResendLookPacket) {
             shouldResendLookPacket = false;
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround()));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
         }
         if (shouldResendSprintPacket) {
             shouldResendSprintPacket = false;
@@ -145,7 +145,7 @@ public class KnockbackTweaks extends Module {
             int range = randomRange.get() * 2 + 1;
             yaw += (float) (Math.random() * range - randomRange.get());
         }
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, mc.player.getPitch(), mc.player.isOnGround()));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, mc.player.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
         shouldResendLookPacket = true;
     }
 

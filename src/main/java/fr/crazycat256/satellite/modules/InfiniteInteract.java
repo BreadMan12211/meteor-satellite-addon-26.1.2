@@ -244,7 +244,7 @@ public class InfiniteInteract extends Module {
     }
 
     private void sendPositionPacket(double x, double y, double z) {
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, true));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, true, mc.player.horizontalCollision));
     }
 
     private Vec3d tpTo(Vec3d tpPos) {
@@ -255,7 +255,7 @@ public class InfiniteInteract extends Module {
         positions.clear();
         positions.add(playerPos);
         for (int i = 0; i < 20 - path.size(); i++) {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.horizontalCollision));
         }
         for (Vec3d vec : path) {
             sendPositionPacket(vec.x, vec.y, vec.z);
@@ -272,7 +272,7 @@ public class InfiniteInteract extends Module {
         ArrayList<Vec3d> path = findTPPath(tempPos, initialPos, 10, 0, 9);
         if (path == null) return;
         for (int i = 0; i < 20 - path.size(); i++) {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.horizontalCollision));
         }
         for (Vec3d vec : path) {
             sendPositionPacket(vec.x, vec.y, vec.z);

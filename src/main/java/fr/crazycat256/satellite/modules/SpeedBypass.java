@@ -46,7 +46,7 @@ public class SpeedBypass extends Module {
         if (mc.player == null) return;
         if (mode.get() == Mode.Static) {
             for (int i = 0; i < packets.get(); i++) {
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(mc.player.isOnGround()));
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(mc.player.isOnGround(), mc.player.horizontalCollision));
             }
         }
     }
@@ -56,7 +56,7 @@ public class SpeedBypass extends Module {
         if (mode.get() == Mode.Dynamic) {
             int packets = (int) (event.movement.length()) / 10;
             for (int i = 0; i < packets; i++) {
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(mc.player.isOnGround()));
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(mc.player.isOnGround(), mc.player.horizontalCollision));
             }
         }
     }

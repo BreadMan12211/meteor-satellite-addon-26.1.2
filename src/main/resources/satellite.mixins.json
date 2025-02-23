@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "fr.crazycat256.satellite.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "client": [
     "CameraMixin"
   ],
@@ -10,7 +10,6 @@
   },
   "mixins": [
     "EntityMixin",
-    "ItemStackMixin",
-    "PlayerPositionLookS2CPacketAccessor"
+    "ItemStackMixin"
   ]
 }

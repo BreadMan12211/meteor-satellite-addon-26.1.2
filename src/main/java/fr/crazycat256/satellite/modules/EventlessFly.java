@@ -6,16 +6,13 @@
 package fr.crazycat256.satellite.modules;
 
 import fr.crazycat256.satellite.Addon;
-import fr.crazycat256.satellite.mixin.PlayerPositionLookS2CPacketAccessor;
 import fr.crazycat256.satellite.utils.ServerUtils;
-import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.util.math.Vec3d;
 
 public class EventlessFly extends Module{
@@ -116,7 +113,7 @@ public class EventlessFly extends Module{
         } else if (!cancelRotations.get()){
             mc.player.setYaw(cameraYaw);
             mc.player.setPitch(cameraPitch);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(cameraYaw, cameraPitch, mc.player.isOnGround()));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(cameraYaw, cameraPitch, mc.player.isOnGround(), mc.player.horizontalCollision));
         }
     }
 
@@ -198,20 +195,7 @@ public class EventlessFly extends Module{
         mc.player.setVelocity(velocity);
         Vec3d endPos = mc.player.getPos().add(velocity);
 
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(endPos.x, endPos.y, endPos.z, mc.player.isOnGround()));
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(endPos.x, -1E6, endPos.z, false));
-    }
-
-
-
-    @EventHandler
-    private void onPacketReceive(PacketEvent.Receive event) {
-        if (mc.player == null || !cancelRotations.get()) return;
-
-        if (event.packet instanceof PlayerPositionLookS2CPacket packet) {
-
-            ((PlayerPositionLookS2CPacketAccessor) packet).setPitch(mc.player.getPitch());
-            ((PlayerPositionLookS2CPacketAccessor) packet).setYaw(mc.player.getYaw());
-        }
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(endPos.x, endPos.y, endPos.z, mc.player.isOnGround(), mc.player.horizontalCollision));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(endPos.x, -1E6, endPos.z, false, mc.player.horizontalCollision));
     }
 }

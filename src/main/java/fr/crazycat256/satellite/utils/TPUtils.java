@@ -36,10 +36,10 @@ public class TPUtils {
 
         int packetsRequired = (int) Math.ceil(Math.abs(distance / 10));
         for (int packetNumber = 0; packetNumber < (packetsRequired - 1); packetNumber++) {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.horizontalCollision));
         }
 
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(pos.x, pos.y, pos.z, true));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(pos.x, pos.y, pos.z, true, mc.player.horizontalCollision));
     }
     public static void PaperTP(Vec3d pos) {
         PaperTP(mc.player.getPos(), pos);

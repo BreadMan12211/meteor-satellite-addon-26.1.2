@@ -189,10 +189,10 @@ public class InfiniteClickTP extends Module {
                     case Straight -> {
                         for (int i = 10; i < tpVec.length(); i += 10) {
                             Vec3d vec = mc.player.getPos().add(tpVec.normalize().multiply(i));
-                            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true));
+                            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true, mc.player.horizontalCollision));
                             positions.add(vec);
                         }
-                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(tpPos.x, tpPos.y, tpPos.z, true));
+                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(tpPos.x, tpPos.y, tpPos.z, true, mc.player.horizontalCollision));
                         positions.add(tpPos);
                     }
 
@@ -201,9 +201,9 @@ public class InfiniteClickTP extends Module {
                         if (steps != null) {
                             positions.addAll(steps);
                             for (Vec3d vec : steps) {
-                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true));
+                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true, mc.player.horizontalCollision));
                             }
-                            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(tpPos.x, tpPos.y, tpPos.z, true));
+                            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(tpPos.x, tpPos.y, tpPos.z, true, mc.player.horizontalCollision));
                         }
                     }
                 }
