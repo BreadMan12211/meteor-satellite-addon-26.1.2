@@ -251,7 +251,7 @@ public class InfiniteInteract extends Module {
         Vec3d playerPos = mc.player.getPos();
 
         ArrayList<Vec3d> path = findTPPath(playerPos, tpPos, 20, 3, 8);
-        if (path == null) return null;
+        if (path == null) return tpPos;
         positions.clear();
         positions.add(playerPos);
         for (int i = 0; i < 20 - path.size(); i++) {

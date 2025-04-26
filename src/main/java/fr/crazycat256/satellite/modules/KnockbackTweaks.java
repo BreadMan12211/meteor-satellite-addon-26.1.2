@@ -160,9 +160,9 @@ public class KnockbackTweaks extends Module {
         Vec3d rotation = mc.player.getRotationVector().multiply(1, 0, 1);
 
         Vec3d lookPos = mc.player.getPos().add(new Vec3d(
-            (mc.player.getX() - mc.player.prevX) * event.tickDelta + mc.player.prevX - mc.player.getX(),
-            (mc.player.getY() - mc.player.prevY) * event.tickDelta + mc.player.prevY - mc.player.getY(),
-            (mc.player.getZ() - mc.player.prevZ) * event.tickDelta + mc.player.prevZ - mc.player.getZ()
+            (mc.player.getX() - mc.player.lastX) * event.tickDelta + mc.player.lastX - mc.player.getX(),
+            (mc.player.getY() - mc.player.lastY) * event.tickDelta + mc.player.lastY - mc.player.getY(),
+            (mc.player.getZ() - mc.player.lastZ) * event.tickDelta + mc.player.lastZ - mc.player.getZ()
         )).add(rotation.multiply(distance.get()));
 
         Vec3d kbRangeMin = lookPos.add(rotation.normalize().multiply(radius.get(), 0, radius.get()).rotateY((float) Math.toRadians(yawMin)));

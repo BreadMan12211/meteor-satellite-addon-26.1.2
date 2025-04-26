@@ -229,7 +229,7 @@ public class AutoFrameDupe extends Module {
                     }
 
                     boolean swapped = false;
-                    if (!(inv.getMainHandStack().getItem() instanceof ItemFrameItem)) {
+                    if (!(inv.getSelectedStack().getItem() instanceof ItemFrameItem)) {
                         for (int i = 0; i < 9; i++) {
                             if (inv.getStack(i).getItem() instanceof ItemFrameItem) {
                                 InvUtils.swap(i, false);
@@ -238,16 +238,16 @@ public class AutoFrameDupe extends Module {
                             }
                         }
                     }
-                    if (!(inv.getMainHandStack().getItem() instanceof ItemFrameItem) && !swapped) {
+                    if (!(inv.getSelectedStack().getItem() instanceof ItemFrameItem) && !swapped) {
                         for (int i = 0; i < inv.size(); i++) {
                             if (inv.getStack(i).getItem() instanceof ItemFrameItem) {
-                                InvUtils.move().from(i).toHotbar(inv.selectedSlot);
+                                InvUtils.move().from(i).toHotbar(inv.getSelectedSlot());
                                 break;
                             }
                         }
                     }
 
-                    if (inv.getMainHandStack().getItem() instanceof ItemFrameItem) {
+                    if (inv.getSelectedStack().getItem() instanceof ItemFrameItem) {
                         mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, new BlockHitResult(Vec3d.ofCenter(pos), itemFrame.getHorizontalFacing(), pos, false));
                         ItemStack stack = mc.player.getStackInHand(Hand.MAIN_HAND).copy();
                         stack.setCount(stack.getCount() - 1);
@@ -313,7 +313,7 @@ public class AutoFrameDupe extends Module {
             int moves = 0;
             boolean swapped = false;
             for (ItemFrameEntity emptyItemFrame: emptyItemFrames) {
-                if (!dupeItems.get().contains(inv.getMainHandStack().getItem()) && swaps < maxSwaps.get()) {
+                if (!dupeItems.get().contains(inv.getSelectedStack().getItem()) && swaps < maxSwaps.get()) {
                     for (int i = 0; i < 9; i++) {
                         if (dupeItems.get().contains(inv.getStack(i).getItem())) {
                             InvUtils.swap(i, false);
@@ -323,16 +323,16 @@ public class AutoFrameDupe extends Module {
                         }
                     }
                 }
-                if (!dupeItems.get().contains(inv.getMainHandStack().getItem()) && moves < maxInventoryMoves.get() && !swapped) {
+                if (!dupeItems.get().contains(inv.getSelectedStack().getItem()) && moves < maxInventoryMoves.get() && !swapped) {
                     for (int i = 0; i < inv.size(); i++) {
                         if (dupeItems.get().contains(inv.getStack(i).getItem())) {
-                            InvUtils.move().from(i).toHotbar(inv.selectedSlot);
+                            InvUtils.move().from(i).toHotbar(inv.getSelectedSlot());
                             moves++;
                             break;
                         }
                     }
                 }
-                if (dupeItems.get().contains(inv.getMainHandStack().getItem()) && placements < maxPlacements.get()) {
+                if (dupeItems.get().contains(inv.getSelectedStack().getItem()) && placements < maxPlacements.get()) {
                     mc.interactionManager.interactEntity(mc.player, emptyItemFrame, Hand.MAIN_HAND);
                     ItemStack stack = mc.player.getStackInHand(Hand.MAIN_HAND).copy();
                     stack.setCount(stack.getCount() - 1);
@@ -399,7 +399,7 @@ public class AutoFrameDupe extends Module {
                     }
 
                     boolean swapped = false;
-                    if (!(inv.getMainHandStack().getItem() instanceof ItemFrameItem)) {
+                    if (!(inv.getSelectedStack().getItem() instanceof ItemFrameItem)) {
                         for (int i = 0; i < 9; i++) {
                             if (inv.getStack(i).getItem() instanceof ItemFrameItem) {
                                 InvUtils.swap(i, false);
@@ -409,17 +409,17 @@ public class AutoFrameDupe extends Module {
                             }
                         }
                     }
-                    if (!(inv.getMainHandStack().getItem() instanceof ItemFrameItem) && !swapped) {
+                    if (!(inv.getSelectedStack().getItem() instanceof ItemFrameItem) && !swapped) {
                         for (int i = 0; i < inv.size(); i++) {
                             if (inv.getStack(i).getItem() instanceof ItemFrameItem) {
-                                InvUtils.move().from(i).toHotbar(inv.selectedSlot);
+                                InvUtils.move().from(i).toHotbar(inv.getSelectedSlot());
                                 moves++;
                                 break;
                             }
                         }
                     }
 
-                    if (inv.getMainHandStack().getItem() instanceof ItemFrameItem) {
+                    if (inv.getSelectedStack().getItem() instanceof ItemFrameItem) {
                         mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, new BlockHitResult(Vec3d.ofCenter(pos), itemFrame.getHorizontalFacing(), pos, false));
                         ItemStack stack = mc.player.getStackInHand(Hand.MAIN_HAND).copy();
                         stack.setCount(stack.getCount() - 1);
@@ -434,7 +434,7 @@ public class AutoFrameDupe extends Module {
 
             boolean swapped = false;
             for (ItemFrameEntity itemFrame: itemFrames) {
-                if ((!dupeItems.get().contains(inv.getMainHandStack().getItem()) || inv.getMainHandStack().getCount() < minStackSize.get()) && swaps < maxSwaps.get()) {
+                if ((!dupeItems.get().contains(inv.getSelectedStack().getItem()) || inv.getSelectedStack().getCount() < minStackSize.get()) && swaps < maxSwaps.get()) {
                     for (int i = 0; i < 9; i++) {
                         if (dupeItems.get().contains(inv.getStack(i).getItem()) && inv.getStack(i).getCount() >= minStackSize.get()) {
                             InvUtils.swap(i, false);
@@ -444,10 +444,10 @@ public class AutoFrameDupe extends Module {
                         }
                     }
                 }
-                if ((!dupeItems.get().contains(inv.getMainHandStack().getItem()) || inv.getMainHandStack().getCount() < minStackSize.get()) && moves < maxInventoryMoves.get() && !swapped) {
+                if ((!dupeItems.get().contains(inv.getSelectedStack().getItem()) || inv.getSelectedStack().getCount() < minStackSize.get()) && moves < maxInventoryMoves.get() && !swapped) {
                     for (int i = 0; i < inv.size(); i++) {
                         if (dupeItems.get().contains(inv.getStack(i).getItem()) && inv.getStack(i).getCount() >= minStackSize.get()) {
-                            InvUtils.move().from(i).toHotbar(inv.selectedSlot);
+                            InvUtils.move().from(i).toHotbar(inv.getSelectedSlot());
                             moves++;
                             swapped = true;
                             break;
@@ -467,7 +467,7 @@ public class AutoFrameDupe extends Module {
                 if (!swapped) {
                     for (int i = 0; i < inv.size(); i++) {
                         if (dupeItems.get().contains(inv.getStack(i).getItem())) {
-                            InvUtils.move().from(i).toHotbar(inv.selectedSlot);
+                            InvUtils.move().from(i).toHotbar(inv.getSelectedSlot());
                             moves++;
                             swapped = true;
                             break;
@@ -475,7 +475,7 @@ public class AutoFrameDupe extends Module {
                     }
                 }
 
-                if (dupeItems.get().contains(inv.getMainHandStack().getItem()) && itemFrame.getHeldItemStack().getItem() == Items.AIR && placements < maxPlacements.get()) {
+                if (dupeItems.get().contains(inv.getSelectedStack().getItem()) && itemFrame.getHeldItemStack().getItem() == Items.AIR && placements < maxPlacements.get()) {
                     interactItemFrame(itemFrame);
                     dontHit.remove(itemFrame);
                     placements++;
@@ -485,7 +485,7 @@ public class AutoFrameDupe extends Module {
                 if (!dontHit.contains(itemFrame) && dupeItems.get().contains(itemFrame.getHeldItemStack().getItem()) && placements < maxPlacements.get()) {
                     dontHit.add(itemFrame);
                     mc.interactionManager.attackEntity(mc.player, itemFrame);
-                    if (dupeItems.get().contains(inv.getMainHandStack().getItem())) {
+                    if (dupeItems.get().contains(inv.getSelectedStack().getItem())) {
                         interactItemFrame(itemFrame);
                         dontHit.remove(itemFrame);
                         placements++;
