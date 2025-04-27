@@ -3,10 +3,17 @@ plugins {
     id ("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
+val buildNumber: String? by project
+val library: Configuration by configurations.creating
 
 base {
     archivesName = properties["archives_base_name"] as String
-    version = properties["mod_version"] as String
+
+    version = properties["minecraft_version"] as String
+    if (buildNumber != null) {
+        version = "$version-$buildNumber"
+    }
+
     group = properties["maven_group"] as String
 }
 
@@ -21,7 +28,7 @@ repositories {
     }
 }
 
-val library: Configuration by configurations.creating
+
 
 configurations {
     // include libraries
