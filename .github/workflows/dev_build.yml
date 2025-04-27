@@ -20,19 +20,16 @@ jobs:
         id: mc_version
         run: |
           MC_VERSION=$(grep 'minecraft_version' gradle.properties | cut -d'=' -f2 | tr -d ' ')
-          echo "minecraft_version=$MC_VERSION" >> $GITHUB_OUTPUT
+          echo "minecraft_version='$MC_VERSION'" >> $GITHUB_OUTPUT
           echo "Minecraft version: $MC_VERSION"
-      - name: Get Release Tags from GitHub API
-        id: get_tags
-        run: |
-          TAGS=$(curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" | jq -r '.[].tag_name')
-          echo "tags=$TAGS" >> $GITHUB_OUTPUT
-          echo "Tags: $TAGS"
       - name: Find Next Build Version
         id: find_build_version
         run: |
-          TAGS="${{ steps.get_tags.outputs.tags }}"
+          TAGS=$(curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" | jq -r '.[].tag_name')
+          echo "Tags: $TAGS"
+
           MATCHING=$(echo "$TAGS" | grep "${{ steps.mc_version.outputs.minecraft_version }}-" || echo "")
+          echo "Matching tags: $MATCHING"
 
           if [ -z "$MATCHING" ]; then
             BUILD_VERSION=1
@@ -41,7 +38,7 @@ jobs:
             BUILD_VERSION=$((LAST_BUILD + 1))
           fi
 
-          echo "build_version=$BUILD_VERSION" >> $GITHUB_OUTPUT
+          echo "build_version='$BUILD_VERSION'" >> $GITHUB_OUTPUT
           echo "Build version: $BUILD_VERSION"
       - name: Build with Gradle
         run: ./gradlew build -PbuildNumber=${{ steps.find_build_version.outputs.build_version }}
