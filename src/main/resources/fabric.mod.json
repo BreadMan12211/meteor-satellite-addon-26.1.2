@@ -8,7 +8,7 @@
     "crazycat256"
   ],
   "contact": {
-    "repo": "https://github.com/crazycat256/meteor-satellite-addon"
+    "sources": "https://github.com/crazycat256/meteor-satellite-addon"
   },
   "icon": "assets/satellite/icon.png",
   "environment": "client",

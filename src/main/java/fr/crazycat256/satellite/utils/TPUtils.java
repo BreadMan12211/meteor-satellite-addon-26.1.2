@@ -6,7 +6,9 @@
 package fr.crazycat256.satellite.utils;
 
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.util.PlayerInput;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import java.lang.Math;
@@ -29,7 +31,17 @@ public class TPUtils {
     public static void PaperTP(Vec3d startPos, Vec3d pos)  {
 
         if (mc.player.isSneaking()) {
-            mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+            PlayerInput lastInput = mc.player.getLastPlayerInput();
+            PlayerInput input = new PlayerInput(
+                lastInput.forward(),
+                lastInput.backward(),
+                lastInput.left(),
+                lastInput.right(),
+                lastInput.jump(),
+                false,
+                lastInput.sprint()
+            );
+            mc.player.networkHandler.sendPacket(new PlayerInputC2SPacket(input));
         }
 
         double distance = startPos.distanceTo(pos);
