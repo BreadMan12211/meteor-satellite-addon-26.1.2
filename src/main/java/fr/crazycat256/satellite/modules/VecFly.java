@@ -149,7 +149,7 @@ public class VecFly extends Module {
     private void onPacketSend(PacketEvent.Send event) {
         if (event.packet instanceof PlayerMoveC2SPacket packet) {
             if (!packet.isOnGround()) {
-                ((PlayerMoveC2SPacketAccessor) packet).setOnGround(true);
+                ((PlayerMoveC2SPacketAccessor) packet).meteor$setOnGround(true);
             }
         }
     }
