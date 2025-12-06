@@ -9,9 +9,11 @@ val library: Configuration by configurations.creating
 base {
     archivesName = properties["archives_base_name"] as String
 
-    version = libs.versions.mod.version.get()
-    if (buildNumber != null) {
-        version = "$version-$buildNumber"
+    version = libs.versions.minecraft.get()
+    version = if (!buildNumber.isNullOrBlank()) {
+        "$version-$buildNumber"
+    } else {
+        "$version-SNAPSHOT"
     }
 
     group = properties["maven_group"] as String
