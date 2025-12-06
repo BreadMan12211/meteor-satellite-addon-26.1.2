@@ -54,14 +54,14 @@ public class TPUtils {
         mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(pos.x, pos.y, pos.z, true, mc.player.horizontalCollision));
     }
     public static void PaperTP(Vec3d pos) {
-        PaperTP(mc.player.getPos(), pos);
+        PaperTP(mc.player.getEntityPos(), pos);
     }
 
     public static BlockPos Vec3d2BlockPos(Vec3d pos) {
         return new BlockPos((int) floor(pos.x), (int) floor(pos.y), (int) floor(pos.z));
     }
     public static ArrayList<Vec3d> findTPPath(Vec3d pos, double maxDistance) {
-        return findTPPath(mc.player.getPos(), pos, 10, maxDistance, 8);
+        return findTPPath(mc.player.getEntityPos(), pos, 10, maxDistance, 8);
     }
 
     public static ArrayList<Vec3d> findTPPath(Vec3d startPos, Vec3d newPos, int maxSteps, double maxDistance, double accuracy) {
@@ -140,7 +140,7 @@ public class TPUtils {
      * @return true if the position is obstructed
      */
     public static boolean isObstructed(Vec3d pos) {
-        Box box = mc.player.getBoundingBox().offset(mc.player.getPos().negate()).offset(pos);
+        Box box = mc.player.getBoundingBox().offset(mc.player.getEntityPos().negate()).offset(pos);
         box = box.expand(-0.0001, -0.0001, -0.0001);
 
         // Using a loop like this is faster than using a stream

@@ -136,7 +136,7 @@ public class SeedMap extends Module {
     private void onTick(TickEvent.Post event) {
         if (webSocket == null || mc.player == null || mc.world == null) return;
 
-        Vec3d pos = mc.player.getPos();
+        Vec3d pos = mc.player.getEntityPos();
         int x = (int) pos.x;
         int z = (int) pos.z;
 

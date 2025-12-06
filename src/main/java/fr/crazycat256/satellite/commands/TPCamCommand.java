@@ -20,9 +20,8 @@ public class TPCamCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
 
-
         builder.executes(context -> {
-            if (mc.cameraEntity == null) {
+            if (mc.getCameraEntity() == null) {
                 error("Camera entity doesn't exist.");
                 return 0;
             }
@@ -31,6 +30,5 @@ public class TPCamCommand extends Command {
             mc.player.updatePosition(pos.x, pos.y, pos.z);
             return SINGLE_SUCCESS;
         });
-
     }
 }

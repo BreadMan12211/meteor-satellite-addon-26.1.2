@@ -130,11 +130,11 @@ public class InfiniteInteract extends Module {
         if (notIfSneaking.get() && mc.player.isSneaking()) return;
 
         Entity entity = event.entity;
-        Vec3d entityPos = entity.getPos();
+        Vec3d entityPos = entity.getEntityPos();
 
         if (mc.player.distanceTo(entity) <= 3) return;
 
-        Vec3d playerPos = mc.player.getPos();
+        Vec3d playerPos = mc.player.getEntityPos();
 
         Vec3d tempPos = tpTo(entityPos);
 
@@ -155,7 +155,7 @@ public class InfiniteInteract extends Module {
 
         Vec3d blockPos = event.result.getPos();
 
-        if (blockPos.distanceTo(mc.player.getPos()) <= 5) return;
+        if (blockPos.distanceTo(mc.player.getEntityPos()) <= 5) return;
 
         lastTP = System.currentTimeMillis();
     }
@@ -166,15 +166,15 @@ public class InfiniteInteract extends Module {
         if (notIfSneaking.get() && mc.player.isSneaking()) return;
 
         Entity entity = event.entity;
-        Vec3d entityPos = entity.getPos();
+        Vec3d entityPos = entity.getEntityPos();
 
         if (mc.player.distanceTo(entity) <= 3) return;
 
-        Vec3d playerPos = mc.player.getPos();
+        Vec3d playerPos = mc.player.getEntityPos();
 
         Vec3d tempPos = tpTo(entityPos);
 
-        entity.interactAt(mc.player, entity.getPos(), Hand.MAIN_HAND);
+        entity.interactAt(mc.player, entity.getEntityPos(), Hand.MAIN_HAND);
         event.setCancelled(true);
 
         tpBack(tempPos, playerPos);
@@ -189,9 +189,9 @@ public class InfiniteInteract extends Module {
 
         Vec3d blockPos = new Vec3d(event.blockPos.getX(), event.blockPos.getY(), event.blockPos.getZ());
 
-        if (blockPos.distanceTo(mc.player.getPos()) <= 5) return;
+        if (blockPos.distanceTo(mc.player.getEntityPos()) <= 5) return;
 
-        Vec3d playerPos = mc.player.getPos();
+        Vec3d playerPos = mc.player.getEntityPos();
 
         Vec3d tempPos = tpTo(blockPos);
 
@@ -209,9 +209,9 @@ public class InfiniteInteract extends Module {
 
         Vec3d blockPos = new Vec3d(event.blockPos.getX(), event.blockPos.getY(), event.blockPos.getZ());
 
-        if (blockPos.distanceTo(mc.player.getPos()) <= 5) return;
+        if (blockPos.distanceTo(mc.player.getEntityPos()) <= 5) return;
 
-        Vec3d playerPos = mc.player.getPos();
+        Vec3d playerPos = mc.player.getEntityPos();
 
         Vec3d tempPos = tpTo(blockPos);
 
@@ -248,7 +248,7 @@ public class InfiniteInteract extends Module {
     }
 
     private Vec3d tpTo(Vec3d tpPos) {
-        Vec3d playerPos = mc.player.getPos();
+        Vec3d playerPos = mc.player.getEntityPos();
 
         ArrayList<Vec3d> path = findTPPath(playerPos, tpPos, 20, 3, 8);
         if (path == null) return tpPos;

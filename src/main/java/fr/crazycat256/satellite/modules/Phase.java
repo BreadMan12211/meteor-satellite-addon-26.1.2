@@ -28,7 +28,7 @@ public class Phase extends Module {
         .description("The mode of the phase.")
         .defaultValue(Mode.TP)
         .onChanged(v -> {
-            if (isActive()) startPos = mc.player.getPos();
+            if (isActive()) startPos = mc.player.getEntityPos();
         })
         .build()
     );
@@ -59,20 +59,20 @@ public class Phase extends Module {
 
     @Override
     public void onActivate() {
-        startPos = mc.player.getPos();
+        startPos = mc.player.getEntityPos();
     }
 
 
     @Override
     public void onDeactivate() {
         if (mc.player != null && mode.get() == Mode.TP) {
-            TPUtils.PaperTP(startPos, mc.player.getPos());
+            TPUtils.PaperTP(startPos, mc.player.getEntityPos());
         }
     }
 
     @EventHandler
     private void onTick(TickEvent.Pre event) {
-        if (mc.player == null || mc.cameraEntity == null) return;
+        if (mc.player == null || mc.getCameraEntity() == null) return;
 
         double forwardX = mc.player.getRotationVector().x;
         double forwardZ = mc.player.getRotationVector().z;

@@ -217,12 +217,12 @@ public class AutoFrameDupe extends Module {
                 for (ItemFrameEntity itemFrame : toReplace) {
 
                     for (ItemFrameEntity existingItemFrame : itemFrames) {
-                        if (existingItemFrame.getPos().equals(itemFrame.getPos()) && existingItemFrame.getHorizontalFacing() == itemFrame.getHorizontalFacing()) {
+                        if (existingItemFrame.getEntityPos().equals(itemFrame.getEntityPos()) && existingItemFrame.getHorizontalFacing() == itemFrame.getHorizontalFacing()) {
                             continue replaceLoop;
                         }
                     }
 
-                    BlockPos pos = TPUtils.Vec3d2BlockPos(itemFrame.getPos().subtract(itemFrame.getRotationVector().normalize()));
+                    BlockPos pos = TPUtils.Vec3d2BlockPos(itemFrame.getEntityPos().subtract(itemFrame.getRotationVector().normalize()));
                     if (inv.getStack(PlayerInventory.OFF_HAND_SLOT).getItem() instanceof ItemFrameItem) {
                         mc.interactionManager.interactBlock(mc.player, Hand.OFF_HAND, new BlockHitResult(Vec3d.ofCenter(pos), itemFrame.getHorizontalFacing(), pos, false));
                         continue;
@@ -385,13 +385,13 @@ public class AutoFrameDupe extends Module {
                 for (ItemFrameEntity itemFrame: List.copyOf(toReplace)) {
 
                     for (ItemFrameEntity existingItemFrame: itemFrames) {
-                        if (existingItemFrame.getPos().equals(itemFrame.getPos()) && existingItemFrame.getHorizontalFacing() == itemFrame.getHorizontalFacing()) {
+                        if (existingItemFrame.getEntityPos().equals(itemFrame.getEntityPos()) && existingItemFrame.getHorizontalFacing() == itemFrame.getHorizontalFacing()) {
                             toReplace.remove(itemFrame);
                             continue replaceLoop;
                         }
                     }
 
-                    BlockPos pos = TPUtils.Vec3d2BlockPos(itemFrame.getPos().subtract(itemFrame.getRotationVector().normalize()));
+                    BlockPos pos = TPUtils.Vec3d2BlockPos(itemFrame.getEntityPos().subtract(itemFrame.getRotationVector().normalize()));
                     if (inv.getStack(PlayerInventory.OFF_HAND_SLOT).getItem() instanceof ItemFrameItem) {
                         mc.interactionManager.interactBlock(mc.player, Hand.OFF_HAND, new BlockHitResult(Vec3d.ofCenter(pos), itemFrame.getHorizontalFacing(), pos, false));
                         placements++;
@@ -519,7 +519,7 @@ public class AutoFrameDupe extends Module {
     }
 
     private void renderItemFrame(Renderer3D renderer, ItemFrameEntity itemFrame, Color color) {
-        Vec3d pos = itemFrame.getPos();
+        Vec3d pos = itemFrame.getEntityPos();
         renderer.boxSides(pos.x-0.25, pos.y-0.25, pos.z-0.25, pos.x+0.25, pos.y+0.25, pos.z+0.25, color, 0);
     }
 

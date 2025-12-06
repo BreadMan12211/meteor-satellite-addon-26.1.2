@@ -147,20 +147,20 @@ public class InfiniteClickTP extends Module {
             RaycastContext context = new RaycastContext(mc.player.getEyePos(), mc.player.getEyePos().add(mc.player.getRotationVector().multiply(maxDistance.get())), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.ANY, mc.player);
             blockPos.set(mc.world.raycast(context).getBlockPos());
 
-            Box box = mc.player.getBoundingBox().offset(mc.player.getPos().negate()).offset(0, 1, 0);
+            Box box = mc.player.getBoundingBox().offset(mc.player.getEntityPos().negate()).offset(0, 1, 0);
 
             while (!Streams.stream(mc.world.getBlockCollisions(mc.player, box.offset(Vec3d.ofBottomCenter(blockPos)))).toList().isEmpty()) {
                 blockPos.set(blockPos.up());
             }
 
             Vec3d tpPos = Vec3d.ofBottomCenter(blockPos).add(0, 1, 0);
-            Vec3d tpVec = tpPos.subtract(mc.player.getPos());
+            Vec3d tpVec = tpPos.subtract(mc.player.getEntityPos());
 
             wrongMove = false;
             if (mode.get() == Mode.Paper) {
-                wrongMove = mc.player.getPos().squaredDistanceTo(tpPos) > 40_000 || TPUtils.isWrongMove(mc.player.getPos(), tpPos);
+                wrongMove = mc.player.getEntityPos().squaredDistanceTo(tpPos) > 40_000 || TPUtils.isWrongMove(mc.player.getEntityPos(), tpPos);
             } else if (mode.get() == Mode.Straight){
-                Vec3d tempPos = mc.player.getPos();
+                Vec3d tempPos = mc.player.getEntityPos();
                 for (int i = 10; i < tpVec.length(); i += 10) {
                     Vec3d tempPos2 = tempPos.add(tpVec.normalize().multiply(10));
                     if (!TPUtils.isTPValid(tempPos, tempPos2)) {
@@ -177,7 +177,7 @@ public class InfiniteClickTP extends Module {
 
 
                 positions.clear();
-                positions.add(mc.player.getPos());
+                positions.add(mc.player.getEntityPos());
 
                 switch (mode.get()) {
 
@@ -188,7 +188,7 @@ public class InfiniteClickTP extends Module {
 
                     case Straight -> {
                         for (int i = 10; i < tpVec.length(); i += 10) {
-                            Vec3d vec = mc.player.getPos().add(tpVec.normalize().multiply(i));
+                            Vec3d vec = mc.player.getEntityPos().add(tpVec.normalize().multiply(i));
                             mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true, mc.player.horizontalCollision));
                             positions.add(vec);
                         }
@@ -197,7 +197,7 @@ public class InfiniteClickTP extends Module {
                     }
 
                     case Pathfinder -> {
-                        ArrayList<Vec3d> steps = TPUtils.findTPPath(mc.player.getPos(), tpPos, 20, 0, 9);
+                        ArrayList<Vec3d> steps = TPUtils.findTPPath(mc.player.getEntityPos(), tpPos, 20, 0, 9);
                         if (steps != null) {
                             positions.addAll(steps);
                             for (Vec3d vec : steps) {

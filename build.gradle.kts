@@ -1,6 +1,6 @@
 plugins {
-    id ("fabric-loom") version "1.10-SNAPSHOT"
-    id ("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.fabric.loom)
+    alias(libs.plugins.shadow)
 }
 
 val buildNumber: String? by project
@@ -9,7 +9,7 @@ val library: Configuration by configurations.creating
 base {
     archivesName = properties["archives_base_name"] as String
 
-    version = properties["minecraft_version"] as String
+    version = libs.versions.mod.version.get()
     if (buildNumber != null) {
         version = "$version-$buildNumber"
     }
@@ -42,22 +42,22 @@ configurations {
 
 dependencies {
     // Fabric
-    minecraft("com.mojang:minecraft:${properties["minecraft_version"] as String}")
-    mappings("net.fabricmc:yarn:${properties["yarn_mappings"] as String}:v2")
-    modImplementation("net.fabricmc:fabric-loader:${properties["loader_version"] as String}")
+    minecraft(libs.minecraft)
+    mappings(variantOf(libs.yarn) { classifier("v2") })
+    modImplementation(libs.fabric.loader)
 
     // Meteor
-    modImplementation("meteordevelopment:meteor-client:${properties["minecraft_version"] as String}-SNAPSHOT")
+    modImplementation(libs.meteor.client)
 
     // Library
-    library("org.java-websocket:Java-WebSocket:1.6.0")
+    library(libs.java.websocket)
 }
 
 tasks {
     processResources {
         val propertyMap = mapOf(
             "version" to project.version,
-            "mc_version" to project.property("minecraft_version"),
+            "mc_version" to libs.versions.minecraft.get(),
         )
 
         filesMatching("fabric.mod.json") {

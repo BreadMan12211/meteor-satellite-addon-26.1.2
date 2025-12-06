@@ -193,7 +193,7 @@ public class EventlessFly extends Module{
 
         velocity = velocity.normalize().multiply(speed.get());
         mc.player.setVelocity(velocity);
-        Vec3d endPos = mc.player.getPos().add(velocity);
+        Vec3d endPos = mc.player.getEntityPos().add(velocity);
 
         mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(endPos.x, endPos.y, endPos.z, mc.player.isOnGround(), mc.player.horizontalCollision));
         mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(endPos.x, -1E6, endPos.z, false, mc.player.horizontalCollision));

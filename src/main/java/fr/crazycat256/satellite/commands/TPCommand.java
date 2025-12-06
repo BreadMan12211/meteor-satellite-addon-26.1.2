@@ -33,7 +33,7 @@ public class TPCommand extends Command {
                     return 0;
                 }
 
-                TPUtils.PaperTP(player.getPos());
+                TPUtils.PaperTP(player.getEntityPos());
                 mc.player.updatePosition(player.getX(), player.getY(), player.getZ());
 
                 return SINGLE_SUCCESS;

@@ -131,8 +131,8 @@ public class KnockbackTweaks extends Module {
         } else if (mode.get() == Mode.RelativeToView) {
             yaw = direction.get() + mc.player.getYaw();
         } else if (mode.get() == Mode.RelativeToPlayer) {
-            Vec3d playerPos = mc.player.getPos();
-            Vec3d entityPos = event.entity.getPos();
+            Vec3d playerPos = mc.player.getEntityPos();
+            Vec3d entityPos = event.entity.getEntityPos();
             Vec3d diff = entityPos.subtract(playerPos);
 
             yaw = (float) Math.toDegrees(Math.atan2(diff.z, diff.x)) - 90 + direction.get();
@@ -152,14 +152,14 @@ public class KnockbackTweaks extends Module {
 
     @EventHandler
     private void onRender(Render3DEvent event) {
-        if (mc.player == null || mc.world == null || mc.cameraEntity == null || !renderDirection.get()) return;
+        if (mc.player == null || mc.world == null || mc.getCameraEntity() == null || !renderDirection.get()) return;
 
         float yawMin = (mode.get() == Mode.Absolute ? mc.player.getYaw() - direction.get() : -direction.get()) - randomRange.get();
         float yawMax = yawMin + 2 * randomRange.get();
 
         Vec3d rotation = mc.player.getRotationVector().multiply(1, 0, 1);
 
-        Vec3d lookPos = mc.player.getPos().add(new Vec3d(
+        Vec3d lookPos = mc.player.getEntityPos().add(new Vec3d(
             (mc.player.getX() - mc.player.lastX) * event.tickDelta + mc.player.lastX - mc.player.getX(),
             (mc.player.getY() - mc.player.lastY) * event.tickDelta + mc.player.lastY - mc.player.getY(),
             (mc.player.getZ() - mc.player.lastZ) * event.tickDelta + mc.player.lastZ - mc.player.getZ()

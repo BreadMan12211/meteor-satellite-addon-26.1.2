@@ -79,7 +79,7 @@ public class ServerUtils {
     }
 
     private static Vec3d adjustMovementForCollisions(Vec3d startPos, Vec3d movement) {
-        Box box = mc.player.getBoundingBox().offset(mc.player.getPos().negate()).offset(startPos);
+        Box box = mc.player.getBoundingBox().offset(mc.player.getEntityPos().negate()).offset(startPos);
         final float stepHeight = 1;
         List<VoxelShape> list = mc.world.getEntityCollisions(mc.player, box.stretch(movement));
         Vec3d vec3d = movement.lengthSquared() == 0.0 ? movement : adjustMovementForCollisions(mc.player, movement, box, mc.world, list);
