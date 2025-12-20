@@ -140,7 +140,7 @@ public class InfiniteInteract extends Module {
 
         mc.player.networkHandler.sendPacket(PlayerInteractEntityC2SPacket.attack(entity, false));
         event.setCancelled(true);
-        mc.player.resetLastAttackedTicks();
+        mc.player.resetTicksSinceLastAttack();
 
         tpBack(tempPos, playerPos);
 

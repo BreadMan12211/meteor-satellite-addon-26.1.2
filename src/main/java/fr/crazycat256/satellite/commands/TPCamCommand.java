@@ -25,7 +25,7 @@ public class TPCamCommand extends Command {
                 error("Camera entity doesn't exist.");
                 return 0;
             }
-            Vec3d pos = mc.gameRenderer.getCamera().getPos();
+            Vec3d pos = mc.gameRenderer.getCamera().getCameraPos();
             TPUtils.PaperTP(pos);
             mc.player.updatePosition(pos.x, pos.y, pos.z);
             return SINGLE_SUCCESS;
