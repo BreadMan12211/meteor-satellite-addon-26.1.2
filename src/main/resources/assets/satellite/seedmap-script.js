@@ -9,7 +9,7 @@ function connect() {
     try {
         socket = new WebSocket('ws://localhost:%s');
     } catch (e) {
-        e.preventDefault();
+        console.error("WebSocket connection failed:", e);
     }
 
     socket.onopen = function(event) {
@@ -18,29 +18,34 @@ function connect() {
 
     socket.onmessage = function (event) {
         const message = event.data;
-        let packet = JSON.parse(message);
+        const packet = JSON.parse(message);
+        const { x, z, dimension } = packet;
 
-        if (packet.x)
-            mapGotoX.value = packet.x;
-        if (packet.z)
-            mapGotoZ.value = packet.z;
-        if (packet.dimension)
-            biomeDimensionSelect.value = packet.dimension;
-        biomeDimensionSelect.dispatchEvent(new Event("change"))
+        if (x) {
+            mapGotoX.value = x;
+        }
+        if (z) {
+            mapGotoZ.value = z;
+        }
+        if (dimension) {
+            biomeDimensionSelect.value = dimension;
+            biomeDimensionSelect.dispatchEvent(new Event("change"))
+        }
 
-        if (packet.x || packet.z)
+        if (x || z) {
             goButton.click();
+        }
     };
 
     socket.onclose = function (event) {
-        event.preventDefault();
+        console.log("WebSocket closed, reconnecting in 2 seconds...");
         if (socket && socket.readyState === WebSocket.OPEN)
             return;
         setTimeout(connect, 2000);
     };
 
     socket.onerror = function (event) {
-        event.preventDefault();
+        console.error("WebSocket error observed:", event);
         socket.close();
     }
 }

@@ -140,8 +140,14 @@ public class SeedMap extends Module {
         int x = (int) pos.x;
         int z = (int) pos.z;
 
-        String dimension = mc.world.getRegistryKey().getValue().toString().substring(10); // Remove the "minecraft:"
+        String dimension = mc.world.getRegistryKey().getValue().toString();
 
+        for (String dim: new String[]{"overworld", "nether", "end"}) {
+            if (dimension.contains(dim)) {
+                dimension = dim;
+                break;
+            }
+        }
 
         JsonObject packet = new JsonObject();
         if (x != lastX)
